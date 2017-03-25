@@ -64,8 +64,8 @@ class HostsManager
                 foreach ($directives['DocumentRoot'] as $projectFolder) {
                     if (is_dir($projectFolder)) {
                         $files[$projectFolder] = scandir($projectFolder);
-                    }else{
-                        $files[$projectFolder][] =  'Folder not exist';
+                    } else {
+                        $files[$projectFolder][] = 'Folder not exist';
                     }
                 }
 
@@ -115,6 +115,10 @@ class HostsManager
         foreach ($lines as $line) {
             foreach ($neededDirectives as $directive) {
                 if (strpos($line, $directive)) {
+
+                    if (substr(trim($line), 0, 1) == "#") {
+                        continue;
+                    }
 
                     if ($directive == 'DocumentRoot') {
                         $line = str_replace('"', '', $line);
