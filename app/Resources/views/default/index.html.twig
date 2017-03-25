@@ -67,8 +67,8 @@
 
 
                                                 {% for path,files in site['files'] %}
-                                                    <h4>{{ path }}</h4>
-                                                    {% for file in files %}
+                                                    <h4>{{ path }} - {{ files['size'] }}</h4>
+                                                    {% for file in files['files'] %}
                                                         <div class="param-value">{{ file }}</div>
                                                     {% endfor %}
                                                 {% endfor %}

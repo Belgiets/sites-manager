@@ -63,9 +63,17 @@ class HostsManager
 
                 foreach ($directives['DocumentRoot'] as $projectFolder) {
                     if (is_dir($projectFolder)) {
-                        $files[$projectFolder] = scandir($projectFolder);
+                        $files[$projectFolder] = [
+                            'size' => $this->getFolderSize($projectFolder),
+                            'error' => null,
+                            'files' => scandir($projectFolder)
+                        ];
                     } else {
-                        $files[$projectFolder][] = 'Folder not exist';
+                        $files[$projectFolder] = [
+                            'size' => 0,
+                            'files' => [],
+                            'error' => 'Folder not exist'
+                        ];
                     }
                 }
 
@@ -153,6 +161,17 @@ class HostsManager
         }
         return null;
 
+    }
+
+
+    private function  getFolderSize($f)
+    {
+
+        $io = popen('/usr/bin/du -sh ' . $f, 'r');
+        $size = fgets($io, 4096);
+        $size = substr($size, 0, strpos($size, "\t"));
+        pclose($io);
+        return $size;
     }
 
 
