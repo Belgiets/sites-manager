@@ -1,0 +1,38 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/security.html
+security:
+
+    # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        webservice:
+            id: ekreative_redmine_login.provider
+        in_memory:
+            memory: ~
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+
+        login:
+            pattern: ^/login$
+            security: false
+
+        secured_area:
+            pattern: ^/
+            anonymous: true
+            simple_form:
+                authenticator: ekreative_redmine_login.authenticator
+                check_path:    login_check
+                login_path:    login
+                username_parameter: login[username]
+                password_parameter: login[password]
+            simple_preauth:
+                authenticator: ekreative_redmine_login.api_authenticator
+            logout:
+                path: /logout
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_REDMINE }

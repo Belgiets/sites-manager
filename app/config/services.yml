@@ -1,0 +1,16 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+#    service_name:
+#        class: AppBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+
+
+    sitesmanager.hosts_manager:
+        class: AppBundle\Services\HostsManager
+        arguments:
+            available: "%sites_available_folder%"
+            enabled: "%sites_enabled_folder%"
