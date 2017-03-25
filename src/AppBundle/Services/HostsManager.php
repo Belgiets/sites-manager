@@ -59,6 +59,9 @@ class HostsManager
             $directives = $this->getParsedConfig($config);
             $files = [];
 
+
+            $folderAvailable = false;
+
             if (array_key_exists('DocumentRoot', $directives)) {
 
                 foreach ($directives['DocumentRoot'] as $projectFolder) {
@@ -69,6 +72,7 @@ class HostsManager
                             'error' => null,
                             'files' => scandir($projectFolder)
                         ];
+                        $folderAvailable = true;
                     } else {
                         $files[$projectFolder] = [
                             'size' => null,
@@ -88,6 +92,7 @@ class HostsManager
                     'content' => $content,
                     'config' => $directives,
                     'files' => $files,
+                    'folderAvailable' => $folderAvailable,
                     'key' => $key
 
                 ];
