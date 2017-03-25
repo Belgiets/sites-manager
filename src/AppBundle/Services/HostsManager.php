@@ -64,13 +64,14 @@ class HostsManager
                 foreach ($directives['DocumentRoot'] as $projectFolder) {
                     if (is_dir($projectFolder)) {
                         $files[$projectFolder] = [
-                            'size' => $this->getFolderSize($projectFolder),
+                            'size' => null,
+//                            'size' => $this->getFolderSize($projectFolder),
                             'error' => null,
                             'files' => scandir($projectFolder)
                         ];
                     } else {
                         $files[$projectFolder] = [
-                            'size' => 0,
+                            'size' => null,
                             'files' => [],
                             'error' => 'Folder not exist'
                         ];
@@ -99,14 +100,15 @@ class HostsManager
     }
 
 
-    private function getParsedConfig($virtualHostFilename)
+    private function getParsedConfig($virtualHostFilename, $withPrefix = true)
     {
 
 
         $content = file_get_contents($virtualHostFilename);
 
 
-        $neededDirectives = ['CustomLog',
+        $neededDirectives = [
+            'CustomLog',
             'ErrorLog',
             'ServerName',
             'ServerAlias',
@@ -131,7 +133,6 @@ class HostsManager
                     if ($directive == 'DocumentRoot') {
                         $line = str_replace('"', '', $line);
                     }
-
                     $directives[$directive][] = trim(str_replace($directive, '', $line));
                 }
             }

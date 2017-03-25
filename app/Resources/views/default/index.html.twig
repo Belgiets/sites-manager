@@ -23,7 +23,7 @@
                                         <button type="button" class="close" data-dismiss="modal"
                                                 aria-label="Close"><span
                                                     aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="myModalLabel">{{ domain }}</h4>
+                                        <h4 class="modal-title" id="myModalLabel"><a href="http://{{ domain }}" target="_blank" >dig {{ domain }}</a></h4>
                                     </div>
                                     <div class="modal-body">
                                         <ul class="nav nav-tabs" role="tablist">
@@ -64,22 +64,19 @@
                                                 <pre>{{ site['content'] }}</pre>
                                             </div>
                                             <div role="tabpanel" class="tab-pane" id="files-{{ site['key'] }}">
-
-
                                                 {% for path,files in site['files'] %}
-                                                    <h4>{{ path }} - {{ files['size'] }}</h4>
+                                                    <h4>cd {{ path }} {{ files['size'] }}</h4>
+                                                    <h4>ls -la {{ path }}</h4>
                                                     {% for file in files['files'] %}
                                                         <div class="param-value">{{ file }}</div>
                                                     {% endfor %}
                                                 {% endfor %}
-
-
                                             </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <div>
-                                            nano {{ site['configFile'] }}
+                                            sudo nano {{ site['configFile'] }}
                                         </div>
                                     </div>
                                 </div>
